@@ -20,12 +20,15 @@ fn list_names(name: &mut Vec<String>,  age: &mut Vec<String>, pause_check: bool)
 }
 
 fn remove_name(name: &mut Vec<String>,  age: &mut Vec<String>) {
+    // checks if there are names in the lists
     if name.len() == 0 {
         println!("No names or ages in list");
         pause();
         return;
     }
+    // reuses a function
     list_names(name, age, false);
+    // gets an input number
     let responce : usize = match input_pr("Which one would you want to remove: ".to_string()).trim().parse() {
         Ok(num) => {num},
         Err(_) => {
@@ -35,14 +38,18 @@ fn remove_name(name: &mut Vec<String>,  age: &mut Vec<String>) {
             return;
         }
     };
+    // checks if it is in range
     if responce > name.len() {
         clear();
         println!("That is out of range");
         pause();
         return;
     }
+
+    //removes it from lists
     name.remove(responce - 1);
     age.remove(responce - 1);
+    
     clear();
     println!("It has been removed");
     pause();

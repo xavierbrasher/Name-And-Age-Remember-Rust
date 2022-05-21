@@ -5,6 +5,7 @@ pub use std::fs;
 pub use std::io::Read;
 
 pub fn make_file(file_name : String) {
+    // makes a file and checks for error
     match fs::write(file_name, ",,,,") {
         Ok(_) => {}
         Err(e) => {
@@ -14,9 +15,12 @@ pub fn make_file(file_name : String) {
 }
 
 pub fn save_file(name: &mut Vec<String>, age: &mut Vec<String>, file_name : String) {
+    // check if names and ages are equal
     if name.len() != age.len() {
         make_file("savedData.dat".to_string())
     }
+
+    // formats it for the reading
     let mut contents: String = String::new();
     for x in 0..name.len() {
         let added: String = name[x].to_string() + "\n";
@@ -27,6 +31,7 @@ pub fn save_file(name: &mut Vec<String>, age: &mut Vec<String>, file_name : Stri
         let added: String = age[x].to_string() + "\n";
         contents += &added
     }
+    // writes a file and check for error
     match fs::write(file_name, contents) {
         Ok(_) => {}
         Err(e) => {
@@ -59,7 +64,6 @@ pub fn vector_each_line(lines_to_be_split: String) -> Vec<String> {
             tmp.push(each_char);
         }
     }
-    //println!("{:?}", vec);
     return words;
 }
 
@@ -75,6 +79,7 @@ pub fn read_file() -> (Vec<String>, Vec<String>) {
     let mut f = fs::File::open(String::from("savedData.dat")).expect("Failed to open");
     let mut s = String::new();
     f.read_to_string(&mut s).expect("could not read it");
+    // vectors each line
     let lines: Vec<String> = vector_each_line(s);
     let (mut name, mut age) : (Vec<String>, Vec<String>) = (Vec::new(), Vec::new());
     let mut passed_commas: bool = false;
