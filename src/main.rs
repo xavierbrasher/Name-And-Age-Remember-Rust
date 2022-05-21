@@ -4,6 +4,7 @@ use std::fs;
 
 use std::io::{stdin, stdout, Read};
 
+// FIXME: fix pause 
 fn pause() {
     println!("Press ENTER to continue...");
     let buffer = &mut [0u8];
