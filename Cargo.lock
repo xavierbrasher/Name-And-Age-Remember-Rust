@@ -3,5 +3,5 @@
 version = 3
 
 [[package]]
-name = "Name-And-Age-Remember-Rust"
+name = "name-and-age-remember-rust"
 version = "0.1.0"
