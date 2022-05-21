@@ -13,6 +13,10 @@ fn pause() {
     
 }
 
+fn clear() {
+    println!("\x1B[2J\x1B[1;1H");
+}
+
 fn file_exists(file_name: String) -> bool {
     std::path::Path::new(&file_name).is_file()
 } 
@@ -137,6 +141,7 @@ fn chooser(name: &mut Vec<String>, age: &mut Vec<String>) {
     // Getting names that are abled to be used
 
     // Printing chose and getting the responce
+    clear();
     println!("Name and age remember \nType n to put someone in \nType r to remove a name \nType l to list out the names \nType q to quit");
     let responce: String = inputPr(String::from("Command: "));
     if responce.len() > 1 { 
@@ -146,16 +151,19 @@ fn chooser(name: &mut Vec<String>, age: &mut Vec<String>) {
 
     match responce.as_str() {
         "n" => {
+            clear();
             println!("running add name"); // TODO: remove debug
             addName(name, age);
             chooser(name, age);
         },
         "l" => {
+            clear();
             println!("running list names"); // TODO: remove debug
             listNames(name, age); 
             chooser(name, age);
         }
         "q" => {
+            clear();
             println!("Goodbye!")
         },
         _ => chooser(name, age),
