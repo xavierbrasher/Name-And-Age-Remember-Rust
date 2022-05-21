@@ -2,12 +2,27 @@
 use std::io::Write;
 use std::fs;
 
+use std::io::{stdin, stdout, Read};
+
+fn pause() {
+    println!("Press ENTER to continue...");
+    let buffer = &mut [0u8];
+    stdin().read_exact(buffer).unwrap();
+    stdout().flush().unwrap();
+}
+
 fn file_exists(file_name: String) -> bool {
     std::path::Path::new(&file_name).is_file()
 } 
 
+// TODO: finish makeFile
 fn makeFile() {
     
+}
+
+// TODO: finish savefile
+fn saveFile() {
+
 }
 
 fn vector_each_line(words_to_be_split: String) -> Vec<String> {
@@ -79,7 +94,7 @@ fn inputPr(content: String) -> String {
     let mut tmp: String = String::new();
     let mut tmp_chars = input.chars();
     for x in 0..input.len() {
-        if x == input.len() - 2 {
+        if x == (input.len() - 2) {
             break;
         }
         tmp.push(tmp_chars.nth(0).unwrap());
@@ -89,45 +104,67 @@ fn inputPr(content: String) -> String {
     return tmp;
 }
 
-fn addName(nameF: Vec<String>,  ageF: Vec<String>) -> (Vec<String>, Vec<String>) {
-    let mut name: Vec<String> = nameF;
-    let mut age: Vec<String> = ageF;
-    let mut on: bool = true;
-    println!("Type q to quit");
-
-    while on {
-        let x: String = inputPr(String::from("Hello, User. What is your name: "));
-        if x.len() == 1 && x.to_lowercase() == String::from("q") {
-            on = false;
-            continue;
-        }
-
-        let y: String = inputPr(String::from(format!("Okay {}, Whats your age: ", x)));
-        if y.len() == 1 && y.to_lowercase() == String::from("q") {
-            on = false;
-            continue;
-        }
-        name.push(x);
-        age.push(y);
+fn listNames(name: &mut Vec<String>,  age: &mut Vec<String>) {
+    for x in 0..name.len() {
+        println!("{:?}: Name: {}, Age: {}", x+1, name[x], age[x])
     }
-    (name, age)
+    pause();
 }
 
-fn chooser(nameF: Vec<String>, ageF: Vec<String>) {
+fn addName(name: &mut Vec<String>,  age: &mut Vec<String>) {
+
+    println!("Type q to cancel adding a name");
+
+
+    let x: String = inputPr(String::from("Hello, User. What is your name: "));
+    if x.len() == 1 && x.to_lowercase() == String::from("q") {
+        return;
+    }
+
+    let y: String = inputPr(String::from(format!("Okay {}, Whats your age: ", x)));
+    if y.len() == 1 && y.to_lowercase() == String::from("q") {
+        return;
+    }
+    name.push(x);
+    age.push(y);
+
+    saveFile();
+}
+
+fn chooser(name: &mut Vec<String>, age: &mut Vec<String>) {
     // Getting names that are abled to be used
-    let name: Vec<String> = nameF;
-    let age: Vec<String> = ageF;
 
     // Printing chose and getting the responce
     println!("Name and age remember \nType n to put someone in \nType r to remove a name \nType l to list out the names \nType q to quit");
     let responce: String = inputPr(String::from("Command: "));
-    if responce.len() > 1 { chooser(name, age); }
+    if responce.len() > 1 { 
+        println!("{:?}", name);
+        chooser(name, age); 
+    }
+
+    match responce.as_str() {
+        "n" => {
+            println!("running add name"); // TODO: remove debug
+            addName(name, age);
+            chooser(name, age);
+        },
+        "l" => {
+            println!("running list names"); // TODO: remove debug
+            listNames(name, age); 
+            chooser(name, age);
+        }
+        "q" => {
+            println!("Goodbye!")
+        },
+        _ => chooser(name, age),
+    }
 
     
 }
 
 fn main() {
     // Reading file and setting variables for it
-    let (name, age): (Vec<String>, Vec<String>) = readfile();
-    chooser(name, age);
+    let (mut name, mut age): (Vec<String>, Vec<String>) = readfile();
+    chooser(&mut name, &mut age);
+    println!("Name: {:?}, Age: {:?}", name, age) // TODO: remove debug
 }
