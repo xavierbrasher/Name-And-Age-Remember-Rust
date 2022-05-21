@@ -5,9 +5,15 @@ use file_management::*;
 
 fn list_names(name: &mut Vec<String>,  age: &mut Vec<String>) {
     // repeats until all names and ages are shown 
-    for x in 0..name.len() {
-        println!("{:?}: Name: {}, Age: {}", x+1, name[x], age[x])
+    if name.len() != 0 {
+        for x in 0..name.len() {
+            println!("{:?}: Name: {}, Age: {}", x+1, name[x], age[x])
+        }
     }
+    else {
+        println!("No names or ages in list")
+    }
+    
    pause();
 }
 
@@ -36,11 +42,11 @@ fn add_name(name: &mut Vec<String>,  age: &mut Vec<String>) {
 }
 
 fn chooser(name: &mut Vec<String>, age: &mut Vec<String>) {
-    save_file(); // TODO: add name and age into requirements 
+    save_file(name, age, String::from("savedData.dat")); // TODO: add name and age into requirements 
     // Getting names that are abled to be used
 
     // Printing chose and getting the responce
-    clear();
+    //clear();
     println!("Name and age remember \nType n to put someone in \nType r to remove a name \nType l to list out the names \nType q to quit");
     let responce: String = input_pr(String::from("Command: "));
     // if responces is larger than 1 it will redo
