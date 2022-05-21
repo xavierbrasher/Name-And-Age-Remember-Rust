@@ -9,6 +9,7 @@ fn pause() {
     let buffer = &mut [0u8];
     stdin().read_exact(buffer).unwrap();
     stdout().flush().unwrap();
+    
 }
 
 fn file_exists(file_name: String) -> bool {
