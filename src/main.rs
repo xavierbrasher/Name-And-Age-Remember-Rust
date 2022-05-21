@@ -3,7 +3,7 @@ use default_libary::*;
 mod file_management;
 use file_management::*;
 
-fn list_names(name: &mut Vec<String>,  age: &mut Vec<String>) {
+fn list_names(name: &mut Vec<String>,  age: &mut Vec<String>, pause_check: bool) {
     // repeats until all names and ages are shown 
     if name.len() != 0 {
         for x in 0..name.len() {
@@ -13,8 +13,39 @@ fn list_names(name: &mut Vec<String>,  age: &mut Vec<String>) {
     else {
         println!("No names or ages in list")
     }
-    
-   pause();
+    if pause_check {
+        pause();
+    }
+   
+}
+
+fn remove_name(name: &mut Vec<String>,  age: &mut Vec<String>) {
+    if name.len() == 0 {
+        println!("No names or ages in list");
+        pause();
+        return;
+    }
+    list_names(name, age, false);
+    let responce : usize = match input_pr("Which one would you want to remove: ".to_string()).trim().parse() {
+        Ok(num) => {num},
+        Err(_) => {
+            clear();
+            println!("Please put in a number");
+            pause();
+            return;
+        }
+    };
+    if responce > name.len() {
+        clear();
+        println!("That is out of range");
+        pause();
+        return;
+    }
+    name.remove(responce - 1);
+    age.remove(responce - 1);
+    clear();
+    println!("It has been removed");
+    pause();
 }
 
 fn add_name(name: &mut Vec<String>,  age: &mut Vec<String>) {
@@ -42,11 +73,11 @@ fn add_name(name: &mut Vec<String>,  age: &mut Vec<String>) {
 }
 
 fn chooser(name: &mut Vec<String>, age: &mut Vec<String>) {
-    save_file(name, age, String::from("savedData.dat")); // TODO: add name and age into requirements 
+    save_file(name, age, String::from("savedData.dat"));
     // Getting names that are abled to be used
 
     // Printing chose and getting the responce
-    //clear();
+    clear();
     println!("Name and age remember \nType n to put someone in \nType r to remove a name \nType l to list out the names \nType q to quit");
     let responce: String = input_pr(String::from("Command: "));
     // if responces is larger than 1 it will redo
@@ -59,19 +90,23 @@ fn chooser(name: &mut Vec<String>, age: &mut Vec<String>) {
     match responce.as_str() {
         "n" => {
             clear();
-            println!("running add name"); // TODO: remove debug
             add_name(name, age);
             chooser(name, age);
         },
         "l" => {
             clear();
-            println!("running list names"); // TODO: remove debug
-            list_names(name, age); 
+            list_names(name, age, true); 
             chooser(name, age);
         }
+        "r" => {
+            clear();
+            remove_name(name, age);
+            chooser(name, age);
+        },
         "q" => {
             clear();
-            println!("Goodbye!")
+            println!("Goodbye!");
+            save_file(name, age, String::from("savedData.dat"));
         },
         _ => chooser(name, age),
     }
@@ -83,5 +118,5 @@ fn main() {
     // Reading file and setting variables for it
     let (mut name, mut age): (Vec<String>, Vec<String>) = read_file();
     chooser(&mut name, &mut age); 
-    println!("Name: {:?}, Age: {:?}", name, age) // TODO: remove debug
+    
 }

@@ -5,13 +5,13 @@ pub use std::io::{stdin, stdout, Read, Write};
 
 pub fn pause() {
     // pause function allows to let the user read and wait until they are ready to continue
-    println!("Press ENTER to continue...");
+    println!("Press enter to continue...");
     input();
 }
 
 pub fn clear() {
     //clears the screen
-    println!("\x1B[2J\x1B[1;1H");
+    print!("\x1B[2J\x1B[1;1H");
 }
 
 pub fn input() -> String {
