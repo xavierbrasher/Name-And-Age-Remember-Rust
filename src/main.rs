@@ -16,6 +16,7 @@ fn list_names(name: &mut Vec<String>,  age: &mut Vec<String>, pause_check: bool)
     if pause_check {
         pause();
     }
+    
    
 }
 
