@@ -25,7 +25,7 @@ pub fn input() -> String {
     let mut tmp: String = String::new();
     let mut tmp_chars = input.chars();
     for x in 0..input.len() {
-        if x == input.len() - 2 {
+        if x == input.len() - 1 {
             break;
         }
         tmp.push(tmp_chars.nth(0).unwrap());
@@ -49,7 +49,7 @@ pub fn input_pr(content: String) -> String {
     let mut tmp: String = String::new();
     let mut tmp_chars = input.chars();
     for x in 0..input.len() {
-        if x == (input.len() - 2) {
+        if x == (input.len() - 1) {
             break;
         }
         tmp.push(tmp_chars.nth(0).unwrap());
