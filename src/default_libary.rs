@@ -25,9 +25,17 @@ pub fn input() -> String {
     let mut tmp: String = String::new();
     let mut tmp_chars = input.chars();
     for x in 0..input.len() {
-        if x == input.len() - 1 {
-            break;
+        if cfg!(unix) {
+            if x == (input.len() - 1) {
+                break;
+            }
         }
+        else if cfg!(windows) {
+            if x == (input.len() - 2) {
+                break;
+            }
+        }
+        
         tmp.push(tmp_chars.nth(0).unwrap());
     }
     // returns the modified tmp
@@ -49,9 +57,17 @@ pub fn input_pr(content: String) -> String {
     let mut tmp: String = String::new();
     let mut tmp_chars = input.chars();
     for x in 0..input.len() {
-        if x == (input.len() - 1) {
-            break;
+        if cfg!(unix) {
+            if x == (input.len() - 1) {
+                break;
+            }
         }
+        else if cfg!(windows) {
+            if x == (input.len() - 2) {
+                break;
+            }
+        }
+        
         tmp.push(tmp_chars.nth(0).unwrap());
     }
 
