@@ -39,6 +39,7 @@ fn remove_name(name: &mut Vec<String>,  age: &mut Vec<String>) {
             return;
         }
     };
+
     // checks if it is in range
     if responce > name.len() {
         clear();
@@ -62,22 +63,36 @@ fn add_name(name: &mut Vec<String>,  age: &mut Vec<String>) {
 
     // gets users input name
     let x: String = input_pr(String::from("Hello, User. What is your name: "));
+
     if x.len() == 1 && x.to_lowercase() == String::from("q") { //checks if it equals to q and if len is 1
+        return;
+    }
+
+    if x.len() == 0 {
+        clear();
+        println!("Do not leave responces blank");
+        add_name(name, age);
         return;
     }
 
     // gets users input age
     let y: String = input_pr(String::from(format!("Okay {}, Whats your age: ", x)));
+
     if y.len() == 1 && y.to_lowercase() == String::from("q") { //checks if it equals to q and if len is 1
+        return;
+    }
+
+    if y.len() == 0 {
+        clear();
+        println!("Do not leave responces blank");
+        add_name(name, age);
         return;
     }
 
     // pushes it to the name and age vec
     name.push(x);
     age.push(y);
-
-    //calls save and then returns
-    
+    return;
 }
 
 fn chooser(name: &mut Vec<String>, age: &mut Vec<String>) {
